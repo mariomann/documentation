@@ -23,7 +23,7 @@ Profiling libraries are shipped within the following tracing language libraries.
 
 The Datadog Profiler requires [Java Flight Recorder][1]. The Datadog Profiling library is supported in OpenJDK 11+, Oracle Java 11+, and Zulu Java 8+ (minor version 1.8.0_212+). All JVM-based languages, such as Scala, Groovy, Kotlin, Clojure, etc. are supported. To begin profiling applications:
 
-1. If you are already using Datadog, please upgrade your agent to version [7.20.2][7] or [6.20.2][7]. 
+1. If you are already using Datadog, please upgrade your agent to version [7.20.2][7] or [6.20.2][7].
 
 2. Download `dd-java-agent.jar`, which contains the Java Agent class files, and add the `dd-trace-java` version to your `pom.xml` or equivalent:
 
@@ -56,23 +56,26 @@ The Datadog Profiler requires [Java Flight Recorder][1]. The Datadog Profiling l
 
 - Because profiles are sent directly to Datadog without using the Datadog Agent, you must pass a valid [Datadog API key][4].
 
-- As an alternative to passing arguments, you can use environment variable to set those parameters:
+- For advanced setup of the profiler or to add tags like `service` or `version`, use environment variables to set the parameters:
 
-| Arguments                     | Environment variable      | Description                                       |
-| ----------------------------- | ------------------------- | ------------------------------------------------- |
-| `-Ddd.profiling.enabled`      | DD_PROFILING_ENABLED      | Set to `true` to enable profiling.                |
-| `-Ddd.profiling.api-key-file` | DD_PROFILING_API_KEY_FILE | Deprecated in version 0.55. File that should contain the API key as a string. See above for how to configure dd-trace-java.jar to upload profiles via the Datadog Agent instead. |
-|                               | DD_PROFILING_API_KEY      | Datadog API key.                                  |
-| `-Ddd.site`                   | DD_SITE                   | Deprecated in version 0.55. Destination site for your profiles (versions 0.48+). Valid options are `datadoghq.com` for Datadog US site (default), and `datadoghq.eu` for the Datadog EU site. See above for how to configure dd-trace-java.jar to upload profiles via the Datadog Agent instead. |
+| Environment variable                             | Type          | Description                                                                                      |
+| ------------------------------------------------ | ------------- | ------------------------------------------------------------------------------------------------ |
+| `DD_PROFILING_ENABLED`                           | Boolean       | Alternate for `-Ddd.profiling.enabled` argument. Set to `true` to enable profiling.               |
+| `DD_API_KEY`                                     | String        | Alternate for `-Ddd.profiling.api-key-file` argument. The [Datadog API key][4] to use when uploading profiles. |
+| `DD_PROFILING_API_KEY_FILE`                      | String        | Replacement for `-Ddd.profiling.api-key-file` argument. File that should contain the [Datadog API key][4].  |
+| `DD_SITE`                                        | String        | Destination site for your profiles (versions 0.48+). Valid options are `datadoghq.com` for Datadog US site (default), and `datadoghq.eu` for the Datadog EU site. |
+| `DD_SERVICE`                                     | String        | The Datadog [service][5] name.     |
+| `DD_ENV`                                         | String        | The Datadog [environment][6] name, for example `production`.|
+| `DD_VERSION`                                     | String        | The version of your application.                             |
+| `DD_TAGS`                                        | String        | Tags to apply to an uploaded profile. Must be a list of `<key>:<value>` separated by commas such as: `layer:api, team:intake`.  |
 
 
 [1]: https://docs.oracle.com/javacomponents/jmc-5-4/jfr-runtime-guide/about.htm
 [2]: https://app.datadoghq.com/profiling
 [3]: https://docs.oracle.com/javase/7/docs/technotes/tools/solaris/java.html
 [4]: /account_management/api-app-keys/#api-keys
-[5]: https://docs.datadoghq.com/agent/versions/upgrade_to_agent_v7/?tab=linux
-[6]: https://github.com/DataDog/dd-trace-java/releases/tag/v0.55.1
-[7]: https://app.datadoghq.com/account/settings#agent/overview
+[5]: /tracing/visualization/#services
+[6]: /tracing/guide/setting_primary_tags_to_scope/#environment
 {{% /tab %}}
 
 {{% tab "Python" %}}
@@ -89,7 +92,19 @@ The Datadog Profiler requires Python 2.7+. Memory profiling only works on Python
 
      **Note**: Profiling is available in the `ddtrace` library for versions 0.36+.
 
-3. To automatically profile your code, import `ddtrace.profile.auto`. After import, the profiler starts:
+2. Add a valid [Datadog API key][1] in your environment variable: `DD_API_KEY`.
+
+    ```shell
+    export DD_API_KEY=<YOUR_API_KEY>
+    ```
+
+3. Set `env`, `service`, and `version` as Datadog tags in your environment variables.
+
+    ```shell
+    export DD_PROFILING_TAGS=env:<YOUR_ENVIRONMENT>,service:<YOUR_SERVICE>,version:<YOUR_VERSION>
+    ```
+
+4. To automatically profile your code, import `ddtrace.profile.auto`. After import, the profiler starts:
 
     ```python
     import ddtrace.profiling.auto
@@ -109,14 +124,13 @@ The Datadog Profiler requires Python 2.7+. Memory profiling only works on Python
 
 | Environment variable                             | Type          | Description                                                                                      |
 | ------------------------------------------------ | ------------- | ------------------------------------------------------------------------------------------------ |
-| `DD_SERVICE`                                     | String        | The Datadog [service][2] name.     |
-| `DD_ENV`                                         | String        | The Datadog [environment][3] name, for example `production`, which can be set here, or in `DD_TAGS` with `DD_TAGS="env:production"`. |
-| `DD_VERSION`                                     | String        | The version of your application, which can be set here, or in `DD_TAGS` with `DD_TAGS="version:<APPLICATION_VERSION>"`                              |
-| `DD_TAGS`                                        | String        | Tags to apply to an uploaded profile. Must be a list a `key:value` comma separated list like: `<KEY1>:<VALUE1>,<KEY2>:<VALUE2>`. New in version 0.38.   |
-| `DD_API_KEY`                                     | String        | Deprecated in version 0.55. The [Datadog API key][1] to use when uploading profiles. See above for how to configure dd-trace-java.jar to upload profiles via the Datadog Agent instead. Supported in version 0.37.                                        |
-| `DD_PROFILING_API_KEY`                           | String        | Deprecated in version 0.37. The [Datadog API key][1] to use when uploading profiles. |
-| `DD_SITE`                                        | String        | Deprecated in version 0.55. If your organization is on Datadog EU site, set this to `datadoghq.eu`. See above for how to configure dd-trace-java.jar to upload profiles via the Datadog Agent instead.                          |
-| `DD_PROFILING_TAGS`                              | String        | Deprecated in 0.38 in favor of `DD_TAGS`. Tags to apply to an uploaded profile. Must be a list a `key:value` comma separated list like: `<KEY1>:<VALUE1>,<KEY2>:<VALUE2>`. |
+| `DD_API_KEY`                                     | String        | The [Datadog API key][1] to use when uploading profiles.                                        |
+| `DD_PROFILING_API_KEY`                           | String        | The [Datadog API key][1] to use when uploading profiles. Changed in 0.37: deprecated in favor of `DD_API_KEY`. |
+| `DD_SITE`                                        | String        | If your organization is on Datadog EU site, set this to `datadoghq.eu`.                          |
+| `DD_SERVICE`                                     | String        | The Datadog [service][3] name.     |
+| `DD_ENV`                                         | String        | The Datadog [environment][4] name, for example `production`, which can be set here, or in `DD_PROFILING_TAGS` with `DD_PROFILING_TAGS="env:production"`. |
+| `DD_VERSION`                                     | String        | The version of your application.                             |
+| `DD_TAGS`                                        | String        | Tags to apply to an uploaded profile. Must be a list of `<key>:<value>` separated by commas such as: `layer:api, team:intake`.   |
 
 <div class="alert alert-info">
 Recommended for advanced usage only.
@@ -180,10 +194,24 @@ Profiler configuration:
 | Method | Type          | Description                                                                                                  |
 | ---------------- | ------------- | ------------------------------------------------------------------------------------------------------------ |
 |  WithAPIKey      | String        | The Datadog [Datadog API key][2]                                                                             |
-|  WithService     | String        | The Datadog [service][4] name, for example `my-web-app`, which can be set here, or in `DD_TAGS`.             |
-|  WithEnv         | String        | The Datadog [environment][5] name, for example `production`, which can be set here, or in `DD_TAGS`.         |
-|  WithTags        | String        | The tags to apply to an uploaded profile. Must be a list of in the format `<KEY1>:<VALUE1>,<KEY2>:<VALUE2>`. |
+|  WithService     | String        | The Datadog [service][4] name, for example `my-web-app`, which can be set here, or in `DD_SERVICE`.             |
+|  WithEnv         | String        | The Datadog [environment][5] name, for example `production`, which can be set here, or in `DD_ENV`.         |
+|  WithTags        | String        | The tags to apply to an uploaded profile. Must be a list of in the format `<KEY1>:<VALUE1>,<KEY2>:<VALUE2>`. You can also set this in `DD_TAGS`. |
+|  WithSite        | String        | If your organization is on Datadog EU site, set this to `datadoghq.eu`. You can also set this in `DD_SITE`. |
 
+
+- For advanced setup of the profiler or to add tags like `service` or `version`, use environment variables to set the parameters:
+
+| Environment variable                             | Type          | Description                                                                                      |
+| ------------------------------------------------ | ------------- | ------------------------------------------------------------------------------------------------ |
+| `DD_PROFILING_ENABLED`                           | Boolean       | Alternate for `-Ddd.profiling.enabled` argument. Set to `true` to enable profiling.               |
+| `DD_API_KEY`                                     | String        | Alternate for `-Ddd.profiling.api-key-file` argument. The [Datadog API key][2] to use when uploading profiles. |
+| `DD_PROFILING_API_KEY_FILE`                      | String        | Replacement for `-Ddd.profiling.api-key-file` argument. File that should contain the [Datadog API key][2].  |
+| `DD_SITE`                                        | String        | If your organization is on Datadog EU site, set this to `datadoghq.eu`.                          |
+| `DD_SERVICE`                                     | String        | The Datadog [service][4] name.     |
+| `DD_ENV`                                         | String        | The Datadog [environment][5] name, for example `production`.|
+| `DD_VERSION`                                     | String        | The version of your application.                              |
+| `DD_TAGS`                                        | String        | Tags to apply to an uploaded profile. Must be a list of `<key>:<value>` separated by commas such as: `layer:api, team:intake`.  |
 
 [1]: https://godoc.org/gopkg.in/DataDog/dd-trace-go.v1/profiler#pkg-constants
 [2]: /account_management/api-app-keys/#api-keys
