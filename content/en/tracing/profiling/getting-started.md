@@ -1,3 +1,14 @@
+---
+title: Getting Started
+kind: Documentation
+further_reading:
+    - link: 'https://www.datadoghq.com/blog/introducing-datadog-profiling/'
+      tags: 'Blog'
+      text: 'Introducing always-on production profiling in Datadog.'
+    - link: 'tracing/profiling/proxy'
+      tag: 'Documentation'
+      text: 'Configure your Proxy to forward your profiles to Datadog.'
+---
 
 Profiling libraries are shipped within the following tracing language libraries. Select your language below to learn how to enable profiling for your application:
 
@@ -164,4 +175,47 @@ The Datadog Profiler requires Go 1.12+. To begin profiling applications:
 [4]: /tracing/guide/setting_primary_tags_to_scope/#environment
 {{% /tab %}}
 
+{{% tab "Node" %}}
+
+The Datadog Profiler requires Node 10.5+. To begin profiling applications:
+
+1. Install `ddtrace` which contains both tracing and profiling:
+
+    ```shell
+    npm install --save dd-trace
+    ```
+
+    **Note**: Profiling is available in the `dd-trace` library in versions 0.23+.
+
+2. To automatically profile your code, import `@datadog/profiler` and start the profiler:
+
+    ```javascript
+    require('ddtrace/profiler').start()
+    ```
+
+4. After a minute or two, visualize your profiles on the [Datadog APM > Profiling page][2].
+
+**Note**:
+
+- It is strongly recommended to add tags like `service` or `version` as it provides the ability to slice and dice your profiles across these dimensions, enhancing your overall product experience. Use environment variables to set the parameters:
+
+| Environment variable                             | Type          | Description                                                                                      |
+| ------------------------------------------------ | ------------- | ------------------------------------------------------------------------------------------------ |
+| `DD_SITE`                                        | String        | If your organization is on Datadog EU site, set this to `datadoghq.eu`.                          |
+| `DD_SERVICE`                                     | String        | The Datadog [service][3] name.     |
+| `DD_ENV`                                         | String        | The Datadog [environment][4] name, for example `production`.|
+| `DD_VERSION`                                     | String        | The version of your application.                              |
+| `DD_TAGS`                                        | String        | Tags to apply to an uploaded profile. Must be a list of `<key>:<value>` separated by commas such as: `layer:api, team:intake`.  |
+
+[1]: https://godoc.org/gopkg.in/DataDog/dd-trace-go.v1/profiler#pkg-constants
+[2]: https://app.datadoghq.com/profiling
+[3]: /tracing/visualization/#services
+[4]: /tracing/guide/setting_primary_tags_to_scope/#environment
+
+{{% /tab %}}
+
 {{< /tabs >}}
+
+## Further Reading
+
+{{< partial name="whats-next/whats-next.html" >}}

@@ -5,9 +5,9 @@ further_reading:
     - link: 'https://www.datadoghq.com/blog/introducing-datadog-profiling/'
       tags: 'Blog'
       text: 'Introducing always-on production profiling in Datadog.'
-    - link: 'tracing/profiling/proxy'
+    - link: 'tracing/profiling/getting-started'
       tag: 'Documentation'
-      text: 'Configure your Proxy to forward your profiles to Datadog.'
+      text: 'Enable continuous profiling for your application.'
 ---
 
 <div class="alert alert-info">
@@ -16,10 +16,11 @@ Datadog Profiling is in beta. Reach out to <a href="/help/">Datadog Support</a> 
 
 {{< img src="tracing/profiling/profiling_flamegraph.gif" alt="Exploring profiling flame graph">}}
 
-Find CPU, memory, and IO bottlenecks, broken down by method name, class name, and line number, to significantly reduce end-user latency and infrastructure costs.
+Find CPU, memory, and IO bottlenecks, broken down by method name, class name, and line number, to significantly reduce end-user latency and infrastructure costs. Continuous Profiling
 
 [Configure profiling][1] in your service to visualize all your stack traces in one place and get actionable insights for performance improvements.
 
+<<<<<<< HEAD
 [1]: /tracing/profiling/setup
 
 
@@ -355,12 +356,10 @@ In case you have done all the necessary configuration steps and do not see profi
 - OS type and version (e.g Linux Ubuntu 14.04.3)
 - Runtime type, version and vendor (e.g Java OpenJDK 11 AdoptOpenJDK)
 
+=======
+>>>>>>> Added all pages
 ## Further Reading
 
 {{< partial name="whats-next/whats-next.html" >}}
 
-[1]: https://app.datadoghq.com/profiling
-[2]: /tracing/send_traces/#configure-your-environment
-[3]: /tracing/visualization/#services
-[4]: /tracing/troubleshooting/#tracer-debug-mode
-[5]: /help/
+[1]: /tracing/profiling/getting-started
