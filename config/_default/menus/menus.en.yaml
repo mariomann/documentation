@@ -904,19 +904,6 @@ main:
     url: tracing/runtime_metrics/nodejs
     parent: tracing_runtime_metrics
     identifier: tracing_runtime_metrics_nodejs
-<<<<<<< HEAD
-    weight: 704
-  - name: Profiling
-    url: tracing/profiling/
-    parent: tracing
-    identifier: profiling
-    weight: 8
-  - name: Proxy
-    url: tracing/profiling/proxy
-    parent: profiling
-    identifier: profiling_proxy
-    weight: 801
-=======
     weight: 604
   - name: Continuous Profiling
     url: tracing/profiling/
@@ -948,7 +935,6 @@ main:
     parent: profiling
     identifier: profiling_troubleshooting
     weight: 705
->>>>>>> Profiling updates
   - name: Manual Instrumentation
     url: tracing/manual_instrumentation/
     parent: tracing
