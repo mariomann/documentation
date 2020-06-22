@@ -13,8 +13,6 @@ further_reading:
 {{< img src="tracing/profiling/trace-profile.gif" alt="Connect profiles and traces.">}}
 
 Pivot seamlessly between distributed traces and profiles to find the line of code responsible for a slow request.
-- view relating to each span
-- identify methods that are consuming the most CPU, memory, or IO
 
 
 ## Further Reading

@@ -12,6 +12,8 @@ further_reading:
 
 {{< img src="tracing/profiling/search_profiles.gif" alt="Search profiles by tags">}}
 
+Each row is a profile of a process for a short amount of time. By default profiles are uploaded once a minute. Depending on the language, these processes are profiled between 15s and 60s.
+
 You can filter according to infrastructure tags or application tags set up from your [environment tracing configuration][1]. By default the following facets are available:
 
 | Facet    | Definition                                                                                             |
@@ -29,6 +31,31 @@ The following measures are available:
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | CPU cores              | CPU load summed on all cores of the process. This metric can go above `100%`, and the theoretical limit is `nCores` \* `100%`.                                                    |
 | Memory Allocation | Memory allocation rate in `Bytes/s` over the course of the profile. This value can be above the maximum amount of RAM memory because it can be garbage collected during the profile. |
+
+
+
+## Profiles
+
+Click on a line to view a specific profile:
+
+{{< img src="tracing/profiling/profiling_flamegraph.gif" alt="A specic profile">}}
+
+The profile header contains information associated with your profile, like the service that generated it, or the environment and code version associated to it.
+
+Four tabs are below the profile header:
+
+| Tab          | Definition                                                                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Profiles     | Flame graph and summary table of the profile you are looking at. You can switch between multiple profile types (`CPU`, `Memory allocation`) |
+| Analysis     | A set of heuristics that suggest potential issues or areas of improvement in your code                                                      |
+| Metrics      | Profiling metrics coming from all profiles of the same service                                                                              |
+| Runtime Info | Text dump of all the runtime properties                                                                                                     |
+
+**Note**: In the upper right corner of each profile, there are options to:
+
+- Download the profile
+- Switch the profile to full screen
+
 
 ### Profile types
 
