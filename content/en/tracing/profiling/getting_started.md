@@ -17,7 +17,9 @@ Profiling libraries are shipped within the following tracing language libraries.
 
 The Datadog Profiler requires [Java Flight Recorder][1]. The Datadog Profiling library is supported in OpenJDK 11+, Oracle Java 11+, and Zulu Java 8+ (minor version 1.8.0_212+). All JVM-based languages, such as Scala, Groovy, Kotlin, Clojure, etc. are supported. To begin profiling applications:
 
-1. Download `dd-java-agent.jar`, which contains the Java Agent class files, and add the `dd-trace-java` version to your `pom.xml` or equivalent:
+1. If you are already using Datadog, please upgrade your agent to version [7.20.2][5] or [6.20.2][5].
+
+2. Download `dd-java-agent.jar`, which contains the Java Agent class files, and add the `dd-trace-java` version to your `pom.xml` or equivalent:
 
     ```shell
     wget -O dd-java-agent.jar 'https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.datadoghq&a=dd-java-agent&v=LATEST'
@@ -25,15 +27,13 @@ The Datadog Profiler requires [Java Flight Recorder][1]. The Datadog Profiling l
 
      **Note**: Profiling is available in the `dd-java-agent.jar` library in versions 0.44+.
 
-2. Update your service invocation to look like:
+3. Set the the `Ddd.profiling.enabled` flag or the {+`DD_PROFILING_ENABLED`+} environment variable to `true`. Update to your service invocation should look like:
 
-    ```text
-    java -javaagent:dd-java-agent.jar -Ddd.profiling.enabled=true -Ddd.profiling.api-key-file=<API_KEY_FILE> -jar <YOUR_SERVICE>.jar <YOUR_SERVICE_FLAGS>
+    ```diff
+    java -javaagent:dd-java-agent.jar +++ -Ddd.profiling.enabled=true -jar <YOUR_SERVICE>.jar <YOUR_SERVICE_FLAGS>
     ```
 
-    **Note**: With `dd-java-agent.jar` library versions 0.48+, if your organization is on Datadog EU site, add `-Ddd.site=datadoghq.eu` or set `DD_SITE=datadoghq.eu` as environment variable.
-
-3. After a minute or two, visualize your profiles on the [Datadog APM > Profiling page][2].
+    **Notes**: From `dd-java-agent.jar` library [versions 0.55][6]+ profiles are sent through the Datadog agent, deprecating the need to specify `-Ddd.profiling.api-key-file` and `-Ddd.site` (requires **[Agent 7.20.2][5]**+ or **[6.20.2][5]**+).
 
 **Note**:
 
@@ -45,8 +45,6 @@ The Datadog Profiler requires [Java Flight Recorder][1]. The Datadog Profiling l
     # Bad:
     java -jar my-service.jar -javaagent:dd-java-agent.jar ...
     ```
-
-- Because profiles are sent directly to Datadog without using the Datadog Agent, you must pass a valid [Datadog API key][4].
 
 - For advanced setup of the profiler or to add tags like `service` or `version`, use environment variables to set the parameters:
 
@@ -64,8 +62,8 @@ The Datadog Profiler requires [Java Flight Recorder][1]. The Datadog Profiling l
 [2]: https://app.datadoghq.com/profiling
 [3]: https://docs.oracle.com/javase/7/docs/technotes/tools/solaris/java.html
 [4]: /account_management/api-app-keys/#api-keys
-[5]: /tracing/visualization/#services
-[6]: /tracing/guide/setting_primary_tags_to_scope/#environment
+[5]: https://app.datadoghq.com/account/settings#agent/overview
+[6]: https://github.com/DataDog/dd-trace-java/releases/tag/v0.55.1
 {{% /tab %}}
 
 {{% tab "Python" %}}

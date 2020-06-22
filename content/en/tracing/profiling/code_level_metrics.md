@@ -14,7 +14,7 @@ further_reading:
 
 {{< img src="tracing/profiling/profiling-metric-dashboard.gif" alt="Add profiling metrics to your dashboards.">}}
 
-Obtain key profiling metrics from services such as top CPU usage by method, top memory allocations by thread, and CPU usage by version to visualize in your dashboards and alert with monitors.
+You can obtain key profiling metrics from services such as top CPU usage by method, top memory allocations by thread, and CPU usage by version to visualize in your dashboards and alert with monitors.
 
 ## Code Level Metrics on Service Pages
 
