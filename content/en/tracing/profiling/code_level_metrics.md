@@ -18,7 +18,7 @@ Obtain key profiling metrics from services such as top CPU usage by method, top 
 
 ## Code Level Metrics on Service Pages
 
-{{< img src="tracing/profiling/service-page-metrics.gif" alt="Automatically access profiling metrics on your service pages.">}}
+{{< img src="tracing/profiling/service-page-metrics.png" alt="Automatically access profiling metrics on your service pages.">}}
 
 Alongside latency, error rates, and request metrics, you will also have code level metrics automatically added to your out of the box service pages.
 
