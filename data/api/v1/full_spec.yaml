@@ -2899,8 +2899,17 @@ components:
           description: The number of log events you can send in this index per day
             before you are rate-limited.
           format: int64
-          readOnly: true
           type: integer
+        disable_daily_limit:
+          description: 'Available only on `PUT`, if set to true, will set the `daily_limit`
+            value to null and the
+
+            index will not be limited on a daily basis (any specified `daily_limit`
+            value in the
+
+            request will be ignored). If set to false, or omitted, the index''s current
+            `daily_limit` is maintained.'
+          type: boolean
         exclusion_filters:
           description: 'An array of exclusion objects. The logs are tested against
             the query of each filter,
@@ -2926,9 +2935,17 @@ components:
           readOnly: true
           type: string
         num_retention_days:
-          description: The number of days before logs are deleted from this index.
+          description: 'The number of days before logs are deleted from this index.
+            Available values depend on
+
+            retention plans specified in your organization''s contract/subscriptions.
+
+
+            **Note:** Changing the retention for an index adjusts the length of retention
+            for all logs
+
+            already in this index. It may also have billing consequences.'
           format: int64
-          readOnly: true
           type: integer
       required:
       - filter
